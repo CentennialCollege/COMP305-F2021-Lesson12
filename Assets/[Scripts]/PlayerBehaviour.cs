@@ -17,6 +17,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("Sound FX")] 
     public AudioSource jumpSound;
+
+    [Header("Visual FX")] 
+    public ParticleSystem dustTrail;
+    public Color dustTrailColour;
     
     
     private Animator animatorController;
@@ -28,6 +32,7 @@ public class PlayerBehaviour : MonoBehaviour
         rigidBody2D = GetComponent<Rigidbody2D>();
         animatorController = GetComponent<Animator>();
         jumpSound = GetComponent<AudioSource>();
+        dustTrail = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -56,6 +61,8 @@ public class PlayerBehaviour : MonoBehaviour
                 animatorController.SetInteger("AnimationState", 1); // run
 
                 playerState = transform.localScale.x > 0 ? PlayerState.RUN_RIGHT : PlayerState.RUN_LEFT;
+
+                CreateDustTrail();
             }
             else
             {
@@ -89,6 +96,8 @@ public class PlayerBehaviour : MonoBehaviour
             animatorController.SetInteger("AnimationState", 2); // jump
             playerState = PlayerState.JUMPING;
 
+            CreateDustTrail();
+
         }
 
         Vector2 movementVector = new Vector2(x * horizontalForce, y * verticalForce);
@@ -110,6 +119,13 @@ public class PlayerBehaviour : MonoBehaviour
 
         isGrounded = (hit) ? true : false;
     }
+
+    public void CreateDustTrail()
+    {
+        dustTrail.GetComponent<Renderer>().material.SetColor("_Color", dustTrailColour);
+        dustTrail.Play();
+    }
+
 
     //private void OnDrawGizmos()
     //{

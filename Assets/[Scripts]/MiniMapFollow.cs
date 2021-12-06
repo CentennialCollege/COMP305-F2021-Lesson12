@@ -15,6 +15,6 @@ public class MiniMapFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = player.position + new Vector3(0.0f, 0.0f, -10.0f);
+        transform.position = player.position + new Vector3(0.0f, 0.0f, -30.0f);
     }
 }
